@@ -1,56 +1,86 @@
-function Iw = embedding(img_fname)
+close all; clearvars;
 
-I    = imread(img_fname);
+I    = imread("lena.bmp");
 [dimx,dimy] = size(I);
 Id   = double(I);
 
 % generate and save watermark
 rand('state', 123); % seed random
-w = round(rand(1,1000));
+w = randi([0, 1], 32, 32);
 save('watermark','w');
 
-% SS embedding param
-alpha = 0.75;
-save('alpha','alpha');
+[LL1,HL1,LH1,HH1] = dwt2(Id,'sym4','mode','per');
 
-J = dct2(Id);
-J_prime = reshape(J, 1, dimx*dimy);
+dct2Handle = @(block_struct) dct2(block_struct.data);
+DLL1 = blockproc(LL1, [8 8], dct2Handle);
 
-% store the sign to restore image and sort in order to exclude DC
-J_sign = sign(J_prime);
-J_mod = abs(J_prime);
-[J_sorted, indexes_sorted] = sort(J_mod, 'descend');
+% compute CDLL1
+blockSizeR = 8;
+blockSizeC = 8;
 
-% add watermark
-sizes = size(J_sorted);
-k = uint32(sizes(2)/10);
-%k = 2;
-save('k','k');
+[rows,columns] = size(DLL1);
 
-for j=1:1000
-    index_to_watermark = indexes_sorted(k);
-    % multiplicative
-    J_mod(index_to_watermark) = J_mod(index_to_watermark) * (1+alpha*w(j));
-    % additive 
-    % J_mod(index_to_watermark) = J_mod(index_to_watermark) * (1+alpha);
-    k = k+1;
+% Figure out the size of each block in rows and cols
+% Most will be blockSizeR and blockSizeC but there 
+% may be a remainder amount of less than that
+wholeBlockRows = floor(rows / blockSizeR);
+blockVectorR = blockSizeR * ones(1, wholeBlockRows);
+
+wholeBlockCols = floor(columns / blockSizeC);
+blockVectorC = blockSizeC * ones(1, wholeBlockCols);
+
+% create cell array - CDLL1
+CDLL1 = mat2cell(DLL1, blockVectorR, blockVectorC);
+WCDLL1 = CDLL1;
+
+for i=1:32
+    for j=1:32
+        cell = CDLL1{i, j};
+        if (w(i, j) == 0)            
+            cell(8, 8) = cell(8, 8)+10;
+            WCDLL1{i, j} = cell;
+        elseif (w(i, j) == 1)
+            cell(8, 8) = cell(8, 8)-5;
+            WCDLL1{i, j} = cell;
+        end
+    end
 end
 
-% restore original format
-a = J_mod .* J_sign;
-J_restored = reshape(a, dimx, dimy);
-I_wat = idct2(J_restored);
+WDLL1 = cell2mat(WCDLL1);
 
-imwrite(uint8(I_wat),'SSwat.bmp'); 
+idct2Handle = @(block_struct) idct2(block_struct.data);
+WLL1 = blockproc(WDLL1, [8 8], idct2Handle);
 
-subplot(1,2,1); 
-imshow(I);
-title('Original');
+IDWT = idwt2(WLL1,HL1,LH1,HH1,'sym4','mode','per');
 
-subplot(1,2,2); 
-imshow(uint8(I_wat));
-title('Watermarked');
+subplot(3,3,1)
+imagesc(LL1)
+colormap gray
+title('Approximation')
+subplot(3,3,2)
+imagesc(HL1)
+colormap gray
+title('Horizontal')
+subplot(3,3,3)
+imagesc(LH1)
+colormap gray
+title('Vertical')
+subplot(3,3,4)
+imagesc(HH1)
+colormap gray
+title('Diagonal')
+subplot(3,3,5)
+imagesc(DLL1)
+colormap gray
+title('DLL1')
+subplot(3,3,6)
+imagesc(IDWT)
+colormap gray
+title('IDWT')
+subplot(3,3,7)
+imagesc(w)
+colormap gray
+title('W')
 
-q2 = WPSNR(uint8(I), uint8(I_wat));
-fprintf('WPSNR = +%5.2f dB\n',q2);
- 
+wpsnr = WPSNR(uint8(I), uint8(IDWT));
+fprintf('WPSNR = +%5.2f dB\n',wpsnr);
