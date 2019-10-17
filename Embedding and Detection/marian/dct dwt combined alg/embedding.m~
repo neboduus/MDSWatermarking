@@ -81,11 +81,11 @@ title('IDWT')
 subplot(3,3,7)
 imagesc(W)
 colormap gray
-title('W')
-subplot(3,3,8)
-imagesc(HI)
-colormap gray
 title('Original')
+subplot(3,3,8)
+imagesc(W)
+colormap gray
+title('W')
 
 wpsnr = WPSNR(uint8(HI), uint8(IDWT));
 fprintf('WPSNR = +%5.2f dB\n',wpsnr);
