@@ -7,10 +7,10 @@ WI   = imread('WI.bmp');
 load('W');
 
 % some attacks
-% imwrite(WI, 'SSatt.jpg', 'Quality', 50);
-% WI = imread('SSatt.jpg');
-% WI = test_sharpening(WI, 2, 3);
-% WI = test_resize(WI, 2);
+imwrite(WI, 'SSatt.jpg', 'Quality', 70);
+WI = imread('SSatt.jpg');
+WI = test_sharpening(WI, 2, 3);
+WI = test_resize(WI, 2);
 
 HI = double(HI);
 WI = double(WI);

@@ -4,10 +4,7 @@ HI = imread("lena.bmp"); % host image
 [dimx,dimy] = size(HI);
 HI = double(HI);
 
-% generate and save watermark
-rand('state', 123); % seed random
-W = randi([0, 1], 32, 32);
-save('W','W');
+load("W");
 
 [LL1,HL1,LH1,HH1] = dwt2(HI,'sym4','mode','per');
 
