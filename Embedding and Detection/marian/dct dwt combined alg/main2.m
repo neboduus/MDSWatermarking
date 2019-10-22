@@ -3,12 +3,12 @@ close all; clearvars;
 rand('state', 123); % seed random
 W = randi([0, 1], 32, 32);
 
-originalFN = 'lena.bmp';
+originalFN = 'baboon.bmp';
 watermarkedFN = 'WI.bmp';
 attackedFN = 'WI_A.bmp';
 
 fprintf('\n Embedding...\n');
-HI = imread("lena.bmp"); % host image
+HI = imread(originalFN); % host image
 [dimx,dimy] = size(HI);
 HI = double(HI);
 
@@ -89,15 +89,19 @@ fprintf('WPSNR(WI, WI_A) = +%5.2f dB\n', wpsnr_att);
  
 subplot(2,3,1)
 imagesc(HI)
+colormap gray
 title('HI')
 subplot(2,3,2)
 imagesc(WI)
+colormap gray
 title('WI')
 subplot(2,3,3)
 imagesc(WI_A)
+colormap gray
 title('WI_A')
 subplot(2,3,4)
 imagesc(W)
+colormap gray
 title('W')
 
 
