@@ -5,9 +5,9 @@ To run the attack call the following function
 ```
 run_attack("groupB", "imageName.bmp")
 ```
-* **run_attack** holds the main function
-* **FilterConfiguration.num** holds the class for filter's configuration and execution
-* **FilterEnum.num** holds the enumeration class for the filters
+* **run_attack.m** holds the main function
+* **FilterConfiguration.m** holds the class for filter's configuration and execution
+* **FilterEnum.m** holds the enumeration class for the filters
 
 ## Folders
 * **detection** - Any detection function goes here
@@ -18,4 +18,4 @@ run_attack("groupB", "imageName.bmp")
 * **img** - Any image goes here
   * *nowatermark* holds the original images provided for the competition
   * *{groupname}_{imageName}.bmp* is *imageName* watermarked by *groupname*
-  * *unemployed_{groupname}_{imageName}.bmp* is *imageName* watermarked by *groupname* and successfully attacked by us
+  * *unemployed_{groupname}_{imageName}.{bmp|jpg}* is *imageName* watermarked by *groupname* and successfully attacked by us
