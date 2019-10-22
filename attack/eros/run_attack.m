@@ -17,14 +17,14 @@ function [attack_log] = run_attack(agroupname, I_name, wI_name)
   attack_WPSNR = 100; %Holds the current WPSNR
   attack_log = {}; %Holds the attack log
   minWPSNR = 35; %Minimum WPSNR accepted to break detection
-  wI_name
   aI_name = strrep(wI_name,'img/',strcat('img/',groupname,'_')); %Set attacked image path
   imwrite(imread(wI_name), aI_name); %Copy original watermarked image to attack
 
   while attack_outcome == 0 && attack_WPSNR>=minWPSNR
     %ATTACK CODE STARTS HERE
-    filter = FilterEnum.SHARPENING; %filter to apply
-    aI_name = run_filter(aI_name, filter); %Apply filter
+    filter = FilterEnum.SHARPENING; %Set filter type
+    filter_config = FilterConfiguration(filter, 3, 0, 0, 0, 0, 1); %Setup filter configuration
+    run_filter(filter_config, aI_name); %Apply filter
     attack_log{end+1} = strcat(filter.name, ','); %Log the attack
     %ATTACK CODE ENDS HERE
 

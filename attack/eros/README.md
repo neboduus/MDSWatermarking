@@ -7,6 +7,7 @@ run_attack("groupB", "imageName.bmp")
 ```
 * **run_attack** holds the main function
 * **run_filter** holds the function that applies filtering
+* **FilterConfiguration.num** holds the class for filter's configuration and execution
 * **FilterEnum.num** holds the enumeration class for the filters
 
 ## Folders
