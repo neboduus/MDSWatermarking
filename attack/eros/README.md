@@ -3,7 +3,7 @@
 
 To run the attack call the following function
 ```
-run_attack("groupB", "img/nowatermark/imageName.bmp","img/groupB_imageName.bmp")
+run_attack("groupB", "imageName.bmp")
 ```
 * **run_attack** holds the main function
 * **run_filter** holds the function that applies filtering

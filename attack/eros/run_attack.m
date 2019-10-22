@@ -11,12 +11,14 @@ function [attack_log] = run_attack(agroupname, I_name, wI_name)
   export = @exportcsv;
 
   fprintf('>ATTACK image %s\n',I_name);
+  I_name=strcat('img/nowatermark/',I_name); %Set image path
+  wI_name=strrep(I_name,'nowatermark/',strcat(agroupname,'_')); %Set image path
   attack_outcome = 0; %Holds the outcome of the current attack
   attack_WPSNR = 100; %Holds the current WPSNR
   attack_log = {}; %Holds the attack log
   minWPSNR = 35; %Minimum WPSNR accepted to break detection
-
-  aI_name = strrep(wI_name,'img/',strcat('img/',groupname,'_')); %Name of the attacked image
+  wI_name
+  aI_name = strrep(wI_name,'img/',strcat('img/',groupname,'_')); %Set attacked image path
   imwrite(imread(wI_name), aI_name); %Copy original watermarked image to attack
 
   while attack_outcome == 0 && attack_WPSNR>=minWPSNR
