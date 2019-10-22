@@ -18,4 +18,4 @@ run_attack("groupB", "img/nowatermark/imageName.bmp","img/groupB_imageName.bmp")
 * **img** - Any image goes here
   * *nowatermark* holds the original images provided for the competition
   * *{groupname}_{imageName}.bmp* is *imageName* watermarked by *groupname*
-  * *unemployed_{groupname}_{imageName}.bmp* is *imageName* watermarked by *groupname* and successfully attacked by us.
+  * *unemployed_{groupname}_{imageName}.bmp* is *imageName* watermarked by *groupname* and successfully attacked by us
