@@ -7,7 +7,7 @@ function [attack_log] = run_attack(agroupname, I_name, wI_name)
   addpath('detection'); %This path contains the detection function to run
   addpath('export'); %This path contains the export function and csv reports
   %FUNCTIONS
-  detect = @detection;
+  detect = @detection_groupB;
   export = @exportcsv;
 
   fprintf('>ATTACK image %s\n',I_name);
