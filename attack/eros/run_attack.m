@@ -1,15 +1,5 @@
 function [attack_log] = run_attack(agroupname, I_name, wI_name)
-  %SETTINGS
-  groupname = 'unemployed'; %Our group name
-  do_export = 1; %Enable/disable log export
-  %PATHS
-  addpath('img'); %This path contains all images
-  addpath('detection'); %This path contains the detection function to run
-  addpath('export'); %This path contains the export function and csv reports
-  %FUNCTIONS
-  detect = @detection_groupB;
-  export = @exportcsv;
-
+  init_settings %load initial settings
   fprintf('>ATTACK image %s\n',I_name);
   I_name=strcat('img/nowatermark/',I_name); %Set image path
   wI_name=strrep(I_name,'nowatermark/',strcat(agroupname,'_')); %Set image path
