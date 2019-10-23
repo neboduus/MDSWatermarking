@@ -1,4 +1,3 @@
-
 # Attack
 
 To run the attack call the following function
@@ -6,10 +5,12 @@ To run the attack call the following function
 run_attack("groupB", "imageName.bmp")
 ```
 * **run_attack.m** holds the main function
+* **init_settings.m** holds the configuration settings
 * **FilterConfiguration.m** holds the class for filter's configuration and execution
 * **FilterEnum.m** holds the enumeration class for the filters
 
 ## Folders
+
 * **detection** - Any detection function goes here
   * *detection_{groupname}.p* holds the detection function of *groupname*
 * **export** - Report logic and data
