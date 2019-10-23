@@ -1,6 +1,6 @@
 classdef FilterConfiguration
 properties
-filter
+filter FilterEnum
 noisepower %AWGN, BLURRING, EQUALIZATION, RESIZING, SHARPENING
 seed %AWGN
 qualityfactor %JPEG
