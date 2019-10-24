@@ -31,7 +31,23 @@ function obj = setNradius(obj, nradius)
   obj.nradius = nradius;
 end
 function p = parameters(obj)
-  p = "params";
+  p = 'params';
+  switch uint32(obj.filter.id)
+  case uint32(FilterEnum.AWGN.id)
+    p = sprintf('noisepower = %f, seed = %d', obj.noisepower, obj.seed);
+  case uint32(FilterEnum.BLURRING.id)
+    p = sprintf('noisepower = %d', obj.noisepower);
+  case uint32(FilterEnum.EQUALIZATION.id)
+    p = sprintf('noisepower = %d', obj.noisepower);
+  case uint32(FilterEnum.JPEG.id)
+    p = sprintf('qualityfactor = %d', obj.qualityfactor);
+  case uint32(FilterEnum.MEDIAN.id)
+    p = sprintf('na = %d, nb = %d', obj.na, obj.nb);
+  case uint32(FilterEnum.RESIZING.id)
+    p = sprintf('noisepower = %f', obj.noisepower);
+  case uint32(FilterEnum.SHARPENING.id)
+    p = sprintf('noisepower = %d, nradius = %d', obj.noisepower, obj.nradius);
+  end
 end
 function run_filter(obj, aI_name)
   I = imread(aI_name);
