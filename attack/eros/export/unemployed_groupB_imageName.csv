@@ -1,2 +1,2 @@
 Image,Group,WPSNR,Attacks with parameters
-unemployed_groupB_imageName.bmp,groupB,50,Blurring
+unemployed_groupB_imageName.bmp,groupB,50,"Sharpening (noisepower = 1, nradius = 3);AWGN (noisepower = 0.000001, seed = 100)"

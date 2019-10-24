@@ -22,7 +22,7 @@ function [attack_log] = run_attack(agroupname, I_name, wI_name)
       filter_config = attack_config.filters(mapping(j));
       fprintf('%s (%s);',filter_config.filter.name, filter_config.parameters);
       run_filter(filter_config, aI_name); %Apply filter
-      attack_log{end + 1} = strcat(filter_config.filter.name, ','); %Log the attack
+      attack_log{end + 1} = strcat(filter_config.filter.name,' (', filter_config.parameters,');'); %Log the attack
       %ATTACK CODE ENDS HERE
 
       %DETECTION CALL STARTS HERE
