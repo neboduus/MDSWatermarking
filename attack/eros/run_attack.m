@@ -64,12 +64,4 @@ function [best_log] = run_attack(agroupname, I_name, wI_name)
     end
   end
 
-  %Failed attack, return empty log
-  if attack_outcome == 0
-    best_log = [];
-    %If export is enabled, save the csv with the logged attacks
-  elseif do_export == 1
-    export(aI_name, agroupname, bestWPSNR, best_log, groupname);
-  end
-
 end
