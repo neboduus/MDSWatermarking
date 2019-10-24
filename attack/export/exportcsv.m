@@ -12,8 +12,8 @@ function csv_filename = exportcsv(aI_name, agroupname, wpsnr, attack_log, groupn
   'Image','Group','WPSNR','Attacks with parameters';
   extracted_filename,agroupname,wpsnr,attacks
   }; %csv header
-
-  csv_filename = strcat('export/',strrep(extracted_filename,'.bmp','.csv')); %replace /{aIname}.csv
+  csv_filename = strrep(strrep(extracted_filename,'.bmp','.csv'),'.jpg','.csv');
+  csv_filename = strcat('export/',csv_filename); %replace /{aIname}.csv
   %edit(csv_filename); %create file if doesn't exist
   writecell(content,csv_filename);
 end
