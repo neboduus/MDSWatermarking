@@ -31,7 +31,6 @@ function obj = setNradius(obj, nradius)
   obj.nradius = nradius;
 end
 function p = parameters(obj)
-  p = 'params';
   switch uint32(obj.filter.id)
   case uint32(FilterEnum.AWGN.id)
     p = sprintf('noisepower = %f, seed = %d', obj.noisepower, obj.seed);
