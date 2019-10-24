@@ -5,9 +5,10 @@ function [best_log] = run_attack(agroupname, I_name, wI_name)
   wI_name=strrep(I_name,'nowatermark/',strcat(agroupname,'_')); %Set image path
   minWPSNR = 35; %Minimum WPSNR accepted to break detection
   aI_name = strrep(wI_name,'img/',strcat('img/',groupname,'_')); %Set attacked image path
-  bestround = -1; %Holds the id of the best round (succesful attack with highest WPSNR)
-  bestWPSNR = -1; %Holds the WPSNR of the best round
+  best_round = -1; %Holds the id of the best round (succesful attack with highest WPSNR)
+  best_WPSNR = -1; %Holds the WPSNR of the best round
   best_log = {}; %Holds the attack log of the best round
+  best_image = -1; %Holds the name of the attacked image resulting from the best round
   i = 1;
   stop = false;
   while stop == false
@@ -21,7 +22,7 @@ function [best_log] = run_attack(agroupname, I_name, wI_name)
     while j<=size(mapping, 2) && attack_outcome == 0 && attack_WPSNR>=minWPSNR
       %ATTACK CODE STARTS HERE
       filter_config = attack_config.filters(mapping(j));
-      run_filter(filter_config, aI_name); %Apply filter
+      aI_name = run_filter(filter_config, aI_name); %Apply filter
       attack_log{end + 1} = strcat(filter_config.filter.name,' (', filter_config.parameters,');'); %Log the attack
       %ATTACK CODE ENDS HERE
 
@@ -32,11 +33,12 @@ function [best_log] = run_attack(agroupname, I_name, wI_name)
       attack_WPSNR = d_WPSNR;
       %DETECTION CALL ENDS HERE
 
-      if(attack_outcome == 1 && attack_WPSNR>bestWPSNR)
+      if(attack_outcome == 1 && attack_WPSNR>best_WPSNR)
         %Keep track of the best round until now
-        bestround = i;
-        bestWPSNR = attack_WPSNR;
+        best_round = i;
+        best_WPSNR = attack_WPSNR;
         best_log = attack_log;
+        best_image = aI_name;
       end
 
       fprintf('   %s (%s) -> attack_outcome=%d, WPSNR=%f\n',filter_config.filter.name, filter_config.parameters, attack_outcome, attack_WPSNR);
@@ -52,15 +54,17 @@ function [best_log] = run_attack(agroupname, I_name, wI_name)
     end
   end
 
-  if bestround == -1
+  if best_round == -1
     %Failed attack, return empty log
     fprintf('========\nNo successful round');
     best_log = [];
   else
     attacks = sprintf('%s',cell2mat(best_log));
-    fprintf('========\nRound %i was the best with WPSNR=%f: %s', bestround, bestWPSNR, attacks);
+    fprintf('========\nRound %i was the best with WPSNR=%f: %s\n', best_round, best_WPSNR, attacks);
+    fprintf('Attacked image: %s\n', best_image);
     if do_export == 1
-      export(aI_name, agroupname, attack_WPSNR, best_log, groupname);
+      csv_filename = export(best_image, agroupname, best_WPSNR, best_log, groupname);
+      fprintf('Report: %s', csv_filename);
     end
   end
 
