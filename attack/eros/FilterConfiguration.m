@@ -9,14 +9,29 @@ nb %MEDIAN
 nradius %SHARPENING
 end
 methods
-function obj = FilterConfiguration(filter, noisepower, seed, qualityfactor, na, nb, nradius)
+function obj = setFilter(obj, filter)
   obj.filter = filter;
+end
+function obj = setNoisepower(obj, noisepower)
   obj.noisepower = noisepower;
+end
+function obj = setSeed(obj, seed)
   obj.seed = seed;
+end
+function obj = setQualityfactor(obj, qualityfactor)
   obj.qualityfactor = qualityfactor;
+end
+function obj = setNa(obj, na)
   obj.na = na;
+end
+function obj = setNb(obj, nb)
   obj.nb = nb;
+end
+function obj = setNradius(obj, nradius)
   obj.nradius = nradius;
+end
+function p = parameters(obj)
+  p = "params";
 end
 function run_filter(obj, aI_name)
   I = imread(aI_name);

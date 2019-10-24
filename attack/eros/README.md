@@ -8,6 +8,7 @@ run_attack("groupB", "imageName.bmp")
 * **init_settings.m** holds the configuration settings
 * **FilterConfiguration.m** holds the class for filter's configuration and execution
 * **FilterEnum.m** holds the enumeration class for the filters
+* **AttackConfig.m** holds the class for the attack configuration (filters and settings)
 
 ## Folders
 

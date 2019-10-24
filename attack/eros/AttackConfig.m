@@ -4,7 +4,7 @@ classdef AttackConfig
       lazy logical = true
    end
    methods
-      function rp = mapping(obj)
+      function rp = mappings(obj)
         s = size(obj.filters, 1)
         p = perms(linspace(1,s,s));
         rp = p(randperm(size(p, 1)), :);
