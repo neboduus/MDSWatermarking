@@ -9,18 +9,16 @@ function [attack_log] = run_attack(agroupname, I_name, wI_name)
   minWPSNR = 35; %Minimum WPSNR accepted to break detection
   aI_name = strrep(wI_name,'img/',strcat('img/',groupname,'_')); %Set attacked image path
 
-
   i = 1;
   stop = false;
   while stop == false
-    fprintf('Round %i: ',i);
+    fprintf('Start round %i\n',i);
     imwrite(imread(wI_name), aI_name); %Copy original watermarked image to attack
     mapping = mappings(i,:); %Consider the ith attack mapping
     j = 1; %Consider the jth filter
     while j<=size(mapping, 2) && attack_outcome == 0 && attack_WPSNR>=minWPSNR
       %ATTACK CODE STARTS HERE
       filter_config = attack_config.filters(mapping(j));
-      fprintf('%s (%s);',filter_config.filter.name, filter_config.parameters);
       run_filter(filter_config, aI_name); %Apply filter
       attack_log{end + 1} = strcat(filter_config.filter.name,' (', filter_config.parameters,');'); %Log the attack
       %ATTACK CODE ENDS HERE
@@ -31,12 +29,16 @@ function [attack_log] = run_attack(agroupname, I_name, wI_name)
       attack_outcome = d_outcome == 0 && d_WPSNR >= minWPSNR;
       attack_WPSNR = d_WPSNR;
       %DETECTION CALL ENDS HERE
-
+      fprintf('   %s (%s) -> attack_outcome=%d, WPSNR=%f\n',filter_config.filter.name, filter_config.parameters, attack_outcome, attack_WPSNR);
       j = j + 1;
     end
-    fprintf('\n');
+    fprintf('End round %i: attack_outcome=%d, WPSNR=%f\n',i, attack_outcome, attack_WPSNR);
     i = i + 1;
-    stop = i > size(mappings, 1);
+    stop = i > size(mappings, 1); %Stop when all mapping have been executed
+    if attack_config.lazy
+      %Or when a successful attack has been delivered
+      stop = stop || attack_outcome == 1;
+    end
   end
 
   %Failed attack, return empty log
