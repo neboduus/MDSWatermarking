@@ -1,9 +1,15 @@
-# Attack
 
-To run the attack call the following function
+# Attack
+## Steps
+
+1. Put the original images provided during the competition inside *img/nowatermark*
+2. Put the *pcode* of the detection function inside *detection/*
+3. Edit *init_settings* to to configure your attack (filters, parameters and general settings)
+4. Run the attack by calling the following function
 ```
-run_attack("groupB", "imageName.bmp")
+run_attack("groupname", "imageName.bmp")
 ```
+5. If any attack was successful in breaking the detection you will find the result of the attack inside *img/* and *export/*
 * **run_attack.m** holds the main function
 * **init_settings.m** holds the configuration settings
 * **FilterConfiguration.m** holds the class for filter's configuration and execution
