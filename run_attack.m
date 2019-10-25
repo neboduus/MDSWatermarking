@@ -19,7 +19,8 @@ function [best_log] = run_attack(agroupname, I_name, wI_name)
     imwrite(imread(wI_name), aI_name); %Copy original watermarked image to attack
     mapping = mappings(i,:); %Consider the ith attack mapping
     j = 1; %Consider the jth filter
-    while j<=size(mapping, 2) && attack_outcome == 0 && attack_WPSNR>=minWPSNR
+    loopcount_round = 1; %Count the number a round has been repeated
+    while j<=size(mapping, 2) && attack_outcome == 0 && attack_WPSNR>=minWPSNR && loopcount_round <= attack_config.stubborn_until
       %ATTACK CODE STARTS HERE
       filter_config = attack_config.filters(mapping(j));
       aI_name = run_filter(filter_config, aI_name); %Apply filter
@@ -33,7 +34,7 @@ function [best_log] = run_attack(agroupname, I_name, wI_name)
       attack_WPSNR = d_WPSNR;
       %DETECTION CALL ENDS HERE
 
-      if(attack_outcome == 1 && attack_WPSNR>best_WPSNR)
+      if attack_outcome == 1 && attack_WPSNR > best_WPSNR
         %Keep track of the best round until now
         best_round = i;
         best_WPSNR = attack_WPSNR;
@@ -43,9 +44,19 @@ function [best_log] = run_attack(agroupname, I_name, wI_name)
 
       fprintf('   %s (%s) -> attack_outcome=%d, WPSNR=%f\n',filter_config.filter.name, filter_config.parameters, attack_outcome, attack_WPSNR);
       j = j + 1;
-    end
-    fprintf('End round %i: attack_outcome=%d, WPSNR=%f\n',i, attack_outcome, attack_WPSNR);
 
+      if attack_config.stubborn_until > 1
+        if j > size(mapping, 2)
+          j = 1; %Restart from the first filter
+          loopcount_round = loopcount_round + 1;
+        end
+      end
+    end
+    if loopcount_round >= attack_config.stubborn_until
+      fprintf('Forced end round %i (x%i): attack_outcome=%d, WPSNR=%f\n', i, attack_config.stubborn_until, attack_outcome, attack_WPSNR);
+    else
+      fprintf('End round %i: attack_outcome=%d, WPSNR=%f\n',i, attack_outcome, attack_WPSNR);
+    end
     i = i + 1;
     stop = i > size(mappings, 1); %Stop when all mapping have been executed
     if attack_config.lazy
