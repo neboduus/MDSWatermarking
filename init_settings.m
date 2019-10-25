@@ -16,5 +16,5 @@ addpath('img'); %This path contains all images
 addpath('detection'); %This path contains the detection function to run
 addpath('export'); %This path contains the export function and csv reports
 %FUNCTIONS
-detect = @detection_groupB;
+detect = str2func(strcat('detection_',agroupname));
 export = @exportcsv;

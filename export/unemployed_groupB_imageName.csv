@@ -1,2 +1,2 @@
 Image,Group,WPSNR,Attacks with parameters
-unemployed_groupB_imageName.jpg,groupB,50,JPEG (qualityfactor = 95)
+unemployed_groupB_imageName.jpg,groupB,50,"Blurring (noisepower = 2);JPEG (qualityfactor = 95);AWGN (noisepower = 0.000001, seed = 100)"
