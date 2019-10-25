@@ -2,6 +2,7 @@ classdef AttackConfig
    properties
       filters (:,1) FilterConfiguration
       lazy logical = true
+      stubborn logical = true
    end
    methods
       function rp = mappings(obj)

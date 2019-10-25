@@ -1,6 +1,7 @@
 %ATTACK SETTINGS
 attack_config = AttackConfig; %Create an instance
 attack_config.lazy = false; %If true then stop attacking a soon as a succesful attack is delivered
+attack_config.lazy = true; %If true then, if needed, apply the filters multiple times until detection is broken or the attack fails
 attack_config.filters = [ %List of filters with params to be applied
 FilterConfiguration().setFilter(FilterEnum.JPEG).setQualityfactor(95)
 FilterConfiguration().setFilter(FilterEnum.BLURRING).setNoisepower(2)
