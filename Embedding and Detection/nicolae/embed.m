@@ -5,23 +5,20 @@ function [I_wat, q1, q2] = embed(I, alpha, k)
     %I    = imread('lena.bmp');
     [dimx,dimy] = size(I);
     Id   = double(I);
-
-    %% Generate random watermark
-    rand('state',123);
-    w = round(rand(1,1000));
-    save('watermark','w');
-
-    %% Define watermark strenght
-    %alpha = 0.5;
-
+    % variace
+    %fprintf('image_variace = +%5.2f dB\n', max(var(Id(:))));
+    
+    %% Load watermark from file
+    load('W.mat', 'w');  
+    w = reshape(w,1,32*32);
+    
     %% Compute DCT
     It = dct2(Id);
 
     %% Reshape the DCT into a vector
     It_re = reshape(It,1,dimx*dimy);
-    % 1 262144
 
-    %% Coefficient selection (hint: use sign, abs and sort functions)
+    %% Coefficient selection
     It_sgn = sign(It_re);
     It_mod = abs(It_re);
     [~,Ix] = sort(It_mod,'descend');
@@ -40,9 +37,6 @@ function [I_wat, q1, q2] = embed(I, alpha, k)
     
     %% Inverse DCT
     I_wat = idct2(It_newi);
-
-    %% Show the watermarked image
-    imshow(I_wat,[]);
 
     %% Save the watermarked image
     I_wat = uint8(I_wat);
