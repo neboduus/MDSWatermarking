@@ -48,7 +48,8 @@ function p = parameters(obj)
     p = sprintf('noisepower = %d, nradius = %d', obj.noisepower, obj.nradius);
   end
 end
-function aI_name = run_filter(obj, aI_name)
+function [aI_name, aI] = run_filter(obj, aI_name)
+  aI = [];
   I = imread(aI_name);
   switch uint32(obj.filter.id)
   case uint32(FilterEnum.AWGN.id)
@@ -68,6 +69,7 @@ function aI_name = run_filter(obj, aI_name)
     %qualityfactor = 50;
     aI_name = strrep(aI_name,'.bmp','.jpg');
     imwrite(I, aI_name, 'Quality', obj.qualityfactor);
+    aI = imread(aI_name);
   case uint32(FilterEnum.MEDIAN.id)
     %na = 20;
     %nb = 40;

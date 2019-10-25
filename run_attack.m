@@ -4,11 +4,11 @@ function [best_log] = run_attack(agroupname, I_name, wI_name)
   I_name=strcat('img/nowatermark/',I_name); %Set image path
   wI_name=strrep(I_name,'nowatermark/',strcat(agroupname,'_')); %Set image path
   minWPSNR = 35; %Minimum WPSNR accepted to break detection
-  aI_name = strrep(wI_name,'img/',strcat('img/',groupname,'_')); %Set attacked image path
   best_round = -1; %Holds the id of the best round (succesful attack with highest WPSNR)
   best_WPSNR = -1; %Holds the WPSNR of the best round
   best_log = {}; %Holds the attack log of the best round
   best_image = -1; %Holds the name of the attacked image resulting from the best round
+  best_aI = []; %Will contain the final image to write as an attack
   i = 1;
   stop = false;
   while stop == false
@@ -16,6 +16,7 @@ function [best_log] = run_attack(agroupname, I_name, wI_name)
     attack_outcome = 0; %Holds the outcome of the current attack
     attack_WPSNR = 100; %Holds the current WPSNR
     attack_log = {}; %Reset the attack log
+    aI_name = strrep(wI_name,'img/',strcat('img/',groupname,'_')); %Set attacked image path
     imwrite(imread(wI_name), aI_name); %Copy original watermarked image to attack
     mapping = mappings(i,:); %Consider the ith attack mapping
     j = 1; %Consider the jth filter
@@ -23,7 +24,7 @@ function [best_log] = run_attack(agroupname, I_name, wI_name)
     while j<=size(mapping, 2) && attack_outcome == 0 && attack_WPSNR>=minWPSNR && loopcount_round <= attack_config.stubborn_until
       %ATTACK CODE STARTS HERE
       filter_config = attack_config.filters(mapping(j));
-      aI_name = run_filter(filter_config, aI_name); %Apply filter
+      [aI_name, aI] = run_filter(filter_config, aI_name); %Apply filter
       attack_log{end + 1} = strcat(filter_config.filter.name,' (', filter_config.parameters,');'); %Log the attack
       %ATTACK CODE ENDS HERE
 
@@ -40,6 +41,7 @@ function [best_log] = run_attack(agroupname, I_name, wI_name)
         best_WPSNR = attack_WPSNR;
         best_log = attack_log;
         best_image = aI_name;
+        best_aI = aI;
       end
 
       fprintf('   %s (%s) -> attack_outcome=%d, WPSNR=%f\n',filter_config.filter.name, filter_config.parameters, attack_outcome, attack_WPSNR);
@@ -64,12 +66,13 @@ function [best_log] = run_attack(agroupname, I_name, wI_name)
       stop = stop || attack_outcome == 1;
     end
   end
-
+  delete(aI_name); %Cleanup last attack image
   if best_round == -1
     %Failed attack, return empty log
     fprintf('========\nNo successful round');
     best_log = [];
   else
+    imwrite(best_aI, aI_name);
     attacks = sprintf('%s',cell2mat(best_log));
     fprintf('========\nRound %i was the best with WPSNR=%f: %s\n', best_round, best_WPSNR, attacks);
     fprintf('Attacked image: %s\n', best_image);
