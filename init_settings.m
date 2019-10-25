@@ -1,6 +1,7 @@
 %ATTACK SETTINGS
 attack_config = AttackConfig; %Create an instance
 attack_config.lazy = false; %If true then stop attacking a soon as a succesful attack is delivered
+attack_config.stubborn = true; %If true then, if needed, apply the filters multiple times until detection is broken or the attack fails
 attack_config.filters = [ %List of filters with params to be applied
 FilterConfiguration().setFilter(FilterEnum.JPEG).setQualityfactor(95)
 FilterConfiguration().setFilter(FilterEnum.BLURRING).setNoisepower(2)
@@ -16,5 +17,5 @@ addpath('img'); %This path contains all images
 addpath('detection'); %This path contains the detection function to run
 addpath('export'); %This path contains the export function and csv reports
 %FUNCTIONS
-detect = @detection_groupB;
+detect = str2func(strcat('detection_',agroupname)); %search by agroupname
 export = @exportcsv;
