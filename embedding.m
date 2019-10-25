@@ -1,8 +1,9 @@
 close all; clearvars;
 
-originalFN = 'baboon.bmp';
-watermarkedFN = 'WI.bmp';
-attackedFN = 'WI_A.bmp';
+img_name = 'bridge.tif';
+originalFN = strcat('img/nowatermark/', img_name);
+watermarkedFN = strcat('img/unemployed_', img_name);
+attackedFN = 'img/WI_A.bmp';
 
 fprintf('\n Embedding...\n');
 HI = imread(originalFN); % host image
@@ -11,10 +12,17 @@ HI = double(HI);
 
 % load watermark from file
 load('W.mat');
+W = w;
 
+% Compute Wavelet Transform
 [LL1,HL1,LH1,HH1] = dwt2(HI,'sym4','mode','per');
 
+% Apply 8x8 block DCT on LL1 level of Wavelet Transform
+
+% create function handler to apply on 8x8 blocks
 dct2Handle = @(block_struct) dct2(block_struct.data);
+
+% apply 
 DLL1 = blockproc(LL1, [8 8], dct2Handle);
 
 % compute CDLL1
@@ -61,16 +69,16 @@ WI = IDWT;
 
 fprintf('WPSNR(Original, Watermarked) = +%5.2f dB\n', WPSNR(uint8(HI), uint8(IDWT)));
 
+fprintf('\n Detecting...\n');
+
 WI_A = WI;
 fprintf('\n Attacking...\n');
-imwrite(WI_A, 'SSatt.jpg', 'Quality', 80);
+imwrite(WI_A, 'SSatt.jpg', 'Quality', 95);
 Iatt = imread('SSatt.jpg');
 delete('SSatt.jpg');
-WI_A = test_sharpening(WI_A, 2, 3);
-WI_A = test_resize(WI_A, 2);
+WI_A = imnoise(WI_A,'gaussian',0,0.0066);
 imwrite(uint8(WI_A), attackedFN, 'bmp');
 
-fprintf('\n Detecting...\n');
 [detected, wpsnr_att] = detection_unemployed(originalFN, watermarkedFN, attackedFN);
 
 %Decision
