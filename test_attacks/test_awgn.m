@@ -1,8 +1,5 @@
 
-function Iatt = test_awgn(Iw, noisePower, seed)
-
-rand('state',seed);
- % Seed random generator
+function Iatt = test_awgn(Iw, noisePower)
 
 Iatt = imnoise(Iw,'gaussian',0,noisePower);
 

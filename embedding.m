@@ -1,6 +1,6 @@
 close all; clearvars;
 
-img_name = 'bridge.tif';
+img_name = 'bridge.bmp';
 originalFN = strcat('img/nowatermark/', img_name);
 watermarkedFN = strcat('img/unemployed_', img_name);
 attackedFN = 'img/WI_A.bmp';
@@ -44,14 +44,15 @@ blockVectorC = blockSizeC * ones(1, wholeBlockCols);
 CDLL1 = mat2cell(DLL1, blockVectorR, blockVectorC);
 WCDLL1 = CDLL1;
 
+bits = [3 3];
 for i=1:32
     for j=1:32
         cell = CDLL1{i, j};
         if (W(i, j) == 0)            
-            cell(8, 8) = cell(8, 8)+10;
+            cell(bits(1), bits(2)) = cell(bits(1), bits(2))+10;
             WCDLL1{i, j} = cell;
         elseif (W(i, j) == 1)
-            cell(8, 8) = cell(8, 8)-5;
+            cell(bits(1), bits(2)) = cell(bits(1), bits(2))-5;
             WCDLL1{i, j} = cell;
         end
     end
@@ -67,17 +68,18 @@ imwrite(uint8(IDWT),watermarkedFN);
 
 WI = IDWT;
 
-fprintf('WPSNR(Original, Watermarked) = +%5.2f dB\n', WPSNR(uint8(HI), uint8(IDWT)));
+fprintf('WPSNR(Original, Watermarked) = +%5.2f dB\n', WPSNR(uint8(HI), uint8(WI)));
 
 fprintf('\n Detecting...\n');
 
 WI_A = WI;
 fprintf('\n Attacking...\n');
-imwrite(WI_A, 'SSatt.jpg', 'Quality', 95);
-Iatt = imread('SSatt.jpg');
-delete('SSatt.jpg');
-WI_A = imnoise(WI_A,'gaussian',0,0.0066);
-imwrite(uint8(WI_A), attackedFN, 'bmp');
+
+WI_A = test_jpeg(uint8(WI_A), 50);
+WI_A = test_awgn(uint(WI_A), 1);
+WI_A = test
+
+imwrite(uint8(WI_A), attackedFN);
 
 [detected, wpsnr_att] = detection_unemployed(originalFN, watermarkedFN, attackedFN);
 
@@ -99,7 +101,7 @@ imagesc(WI)
 colormap gray
 title('WI')
 subplot(2,3,3)
-imagesc(WI_A)
+imagesc(double(WI_A));
 colormap gray
 title('WI_A')
 subplot(2,3,4)

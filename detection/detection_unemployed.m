@@ -36,15 +36,16 @@ function [detected, wpsnr] = detection_unemployed(originalI, watermarkedI, attac
     M1 = ones(wholeBlockRows,wholeBlockCols);
     M2 = ones(wholeBlockRows,wholeBlockCols);
 
+    bits = [3 3];
     for i=1:wholeBlockRows
         for j=1:wholeBlockCols
             WDCT = dct2(CWLL1{i,j});
             WDCT_A = dct2(CWLL1_A{i,j});
             HDCT = dct2(CHLL1{i,j});
 
-            M0(i,j) = WDCT(8,8);
-            M1(i,j) = WDCT_A(8,8);
-            M2(i,j) = HDCT(8,8);
+            M0(i,j) = WDCT(bits(1),bits(2));
+            M1(i,j) = WDCT_A(bits(1),bits(2));
+            M2(i,j) = HDCT(bits(1),bits(2));
         end
     end
 
@@ -85,7 +86,7 @@ function [detected, wpsnr] = detection_unemployed(originalI, watermarkedI, attac
     end
 
     stop_time = cputime;
-    fprintf('Detection Execution time = %0.5f sec\n',abs( start_time - stop_time));
+    %fprintf('Detection Execution time = %0.5f sec\n',abs( start_time - stop_time));
 
 
 

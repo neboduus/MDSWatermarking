@@ -1,4 +1,4 @@
-function [detected, wpsnr] = detection_unemployed(originalI, watermarkedI, attackedI)
+function [detected, wpsnr] = detection_unemployed_dev(originalI, watermarkedI, attackedI)
 
     start_time = cputime;
     
@@ -36,15 +36,16 @@ function [detected, wpsnr] = detection_unemployed(originalI, watermarkedI, attac
     M1 = ones(wholeBlockRows,wholeBlockCols);
     M2 = ones(wholeBlockRows,wholeBlockCols);
 
+    bits = [8 8];
     for i=1:wholeBlockRows
         for j=1:wholeBlockCols
             WDCT = dct2(CWLL1{i,j});
             WDCT_A = dct2(CWLL1_A{i,j});
             HDCT = dct2(CHLL1{i,j});
 
-            M0(i,j) = WDCT(8,8);
-            M1(i,j) = WDCT_A(8,8);
-            M2(i,j) = HDCT(8,8);
+            M0(i,j) = WDCT(bits(1),bits(2));
+            M1(i,j) = WDCT_A(bits(1),bits(2));
+            M2(i,j) = HDCT(bits(1),bits(2));
         end
     end
 
@@ -77,9 +78,6 @@ function [detected, wpsnr] = detection_unemployed(originalI, watermarkedI, attac
     W = reshape(W, 1, Wx*Wy);
 
     SIM = W * ExW' / sqrt(ExW * ExW');
-
-    fprintf('SIM(W,ExW) = %d \n', SIM);
-    fprintf('T = %d \n', T);
     
     %Decision
     if SIM > T
