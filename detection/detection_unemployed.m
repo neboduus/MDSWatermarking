@@ -36,7 +36,7 @@ function [detected, wpsnr] = detection_unemployed(originalI, watermarkedI, attac
     M1 = ones(wholeBlockRows,wholeBlockCols);
     M2 = ones(wholeBlockRows,wholeBlockCols);
 
-    bits = [3 3];
+    bits = [6 6];
     for i=1:wholeBlockRows
         for j=1:wholeBlockCols
             WDCT = dct2(CWLL1{i,j});
@@ -86,7 +86,7 @@ function [detected, wpsnr] = detection_unemployed(originalI, watermarkedI, attac
     end
 
     stop_time = cputime;
-    %fprintf('Detection Execution time = %0.5f sec\n',abs( start_time - stop_time));
+    % fprintf('Detection Execution time = %0.5f sec\n',abs( start_time - stop_time));
 
 
 

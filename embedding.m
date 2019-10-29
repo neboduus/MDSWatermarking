@@ -1,6 +1,6 @@
 close all; clearvars;
 
-img_name = 'bridge.bmp';
+img_name = 'baboon.bmp';
 originalFN = strcat('img/nowatermark/', img_name);
 watermarkedFN = strcat('img/unemployed_', img_name);
 attackedFN = 'img/WI_A.bmp';
@@ -44,7 +44,7 @@ blockVectorC = blockSizeC * ones(1, wholeBlockCols);
 CDLL1 = mat2cell(DLL1, blockVectorR, blockVectorC);
 WCDLL1 = CDLL1;
 
-bits = [3 3];
+bits = [6 6];
 for i=1:32
     for j=1:32
         cell = CDLL1{i, j};
@@ -73,15 +73,6 @@ fprintf('WPSNR(Original, Watermarked) = +%5.2f dB\n', WPSNR(uint8(HI), uint8(WI)
 fprintf('\n Detecting...\n');
 
 WI_A = WI;
-fprintf('\n Attacking...\n');
-
-WI_A = test_sharpening(WI_A, 1, 1);
-WI_A = test_equalization(WI_A, 250);
-WI_A = test_resize(WI_A, 1);
-WI_A = test_blur(WI_A, 0.1);
-WI_A = test_jpeg(uint8(WI_A), 50);
-WI_A = test_awgn(WI_A, 1, 100);
-
 imwrite(uint8(WI_A), attackedFN);
 
 [detected, wpsnr_att] = detection_unemployed(originalFN, watermarkedFN, attackedFN);
