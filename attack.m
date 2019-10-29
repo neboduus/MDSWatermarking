@@ -30,6 +30,8 @@ b = [1:5:20];
 median_params = [m(:),n(:)];
 result = 0;
 
+maxWPSNR = 0;
+
 for i = 1 : length(jpeg_params)
     attacked_img = original_img;
     selected_jpeg_param = jpeg_params(i);
@@ -105,6 +107,8 @@ for i = 1 : length(jpeg_params)
                                         fprintf('EQUALIZATION -> %d \n', selected_equalization_param);
                                         result=1;
                                     end
+                                    
+                                    
 
                                 end
                             end

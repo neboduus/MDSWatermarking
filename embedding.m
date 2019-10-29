@@ -75,9 +75,12 @@ fprintf('\n Detecting...\n');
 WI_A = WI;
 fprintf('\n Attacking...\n');
 
+WI_A = test_sharpening(WI_A, 1, 1);
+WI_A = test_equalization(WI_A, 250);
+WI_A = test_resize(WI_A, 1);
+WI_A = test_blur(WI_A, 0.1);
 WI_A = test_jpeg(uint8(WI_A), 50);
-WI_A = test_awgn(uint(WI_A), 1);
-WI_A = test
+WI_A = test_awgn(WI_A, 1, 100);
 
 imwrite(uint8(WI_A), attackedFN);
 
