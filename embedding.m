@@ -1,5 +1,7 @@
 close all; clearvars;
 
+addpath('detection');
+
 img_name = 'baboon.bmp';
 originalFN = strcat('img/nowatermark/', img_name);
 watermarkedFN = strcat('img/unemployed_', img_name);
