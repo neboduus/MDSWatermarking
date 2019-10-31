@@ -1,2 +1,2 @@
 Image,Group,WPSNR,Attacks with parameters
-unemployed_unemployed_baboon.bmp,unemployed,39.1328759443185,"AWGN (noisepower = 0.001000, seed = 100);AWGN (noisepower = 0.001000, seed = 100)"
+unemployed_unemployed_baboon.jpg,unemployed,45.8926247454596,JPEG (qualityfactor = 96);Blurring (noisepower = 5.000000e-01);JPEG (qualityfactor = 96);Blurring (noisepower = 5.000000e-01)
