@@ -49,45 +49,43 @@ function p = parameters(obj)
   end
 end
 function [aI_name, aI] = run_filter(obj, aI_name)
-  aI = [];
-  I = imread(aI_name);
+  aI = imread(aI_name);
   switch uint32(obj.filter.id)
   case uint32(FilterEnum.AWGN.id)
     %noisepower = .000001; seed = 100;
     %rand('state',obj.seed); OLD
     rng(obj.seed, 'twister');
-    aI = imnoise(I,'gaussian',0,obj.noisepower);
+    aI = imnoise(aI,'gaussian',0,obj.noisepower);
     imwrite(aI, aI_name);
   case uint32(FilterEnum.BLURRING.id)
     %noisepower = 2;
-    aI = imgaussfilt(I,obj.noisepower);
+    aI = imgaussfilt(aI,obj.noisepower);
     imwrite(aI, aI_name);
   case uint32(FilterEnum.EQUALIZATION.id)
     %noisepower = 20;
-    aI = histeq(I,obj.noisepower);
+    aI = histeq(aI,obj.noisepower);
     imwrite(aI, aI_name);
   case uint32(FilterEnum.JPEG.id)
     %qualityfactor = 50;
     aI_name = strrep(aI_name,'.bmp','.jpg');
-    imwrite(I, aI_name, 'Quality', obj.qualityfactor);
-    aI = imread(aI_name);
+    imwrite(aI, aI_name, 'Quality', obj.qualityfactor);
   case uint32(FilterEnum.MEDIAN.id)
     %na = 20;
     %nb = 40;
-    aI = medfilt2(I,[obj.na obj.nb]);
+    aI = medfilt2(aI,[obj.na obj.nb]);
     imwrite(aI, aI_name);
   case uint32(FilterEnum.RESIZING.id)
     %noisepower = 0.1;
-    n = size(I);
-    I = double(I);
-    aI = imresize(I, obj.noisepower);
+    n = size(aI);
+    aI = double(aI);
+    aI = imresize(aI, obj.noisepower);
     aI = imresize(aI, 1/obj.noisepower);
     aI = uint8(aI(1:n(1), 1:n(2)));
     imwrite(aI, aI_name);
   case uint32(FilterEnum.SHARPENING.id)
     %nradius = 3;
     %noisepower = 1;
-    aI = imsharpen(I, 'Radius', obj.nradius, 'Amount', obj.noisepower);
+    aI = imsharpen(aI, 'Radius', obj.nradius, 'Amount', obj.noisepower);
     imwrite(aI, aI_name);
   end
 end

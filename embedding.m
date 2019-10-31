@@ -4,7 +4,7 @@ addpath('detection');
 
 img_name = 'woman_darkhair.bmp';
 originalFN = strcat('img/nowatermark/', img_name);
-watermarkedFN = strcat('img/unemployed_', img_name);
+watermarkedFN = strcat('img/groupB_', img_name);
 attackedFN = 'img/WI_A.bmp';
 
 fprintf('\n Embedding...\n');
@@ -24,7 +24,7 @@ W = w;
 % create function handler to apply on 8x8 blocks
 dct2Handle = @(block_struct) dct2(block_struct.data);
 
-% apply 
+% apply
 DLL1 = blockproc(LL1, [8 8], dct2Handle);
 
 % compute CDLL1
@@ -34,7 +34,7 @@ blockSizeC = 8;
 [rows,columns] = size(DLL1);
 
 % Figure out the size of each block in rows and cols
-% Most will be blockSizeR and blockSizeC but there 
+% Most will be blockSizeR and blockSizeC but there
 % may be a remainder amount of less than that
 wholeBlockRows = floor(rows / blockSizeR);
 blockVectorR = blockSizeR * ones(1, wholeBlockRows);
@@ -50,7 +50,7 @@ bits = [6 6];
 for i=1:32
     for j=1:32
         cell = CDLL1{i, j};
-        if (W(i, j) == 0)            
+        if (W(i, j) == 0)
             cell(bits(1), bits(2)) = cell(bits(1), bits(2))+10;
             WCDLL1{i, j} = cell;
         elseif (W(i, j) == 1)
@@ -87,7 +87,7 @@ else
 end
 
 fprintf('WPSNR(WI, WI_A) = +%5.2f dB\n', wpsnr_att);
- 
+
 subplot(2,3,1)
 imagesc(HI)
 colormap gray
@@ -104,5 +104,3 @@ subplot(2,3,4)
 imagesc(W)
 colormap gray
 title('W')
-
-

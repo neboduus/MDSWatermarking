@@ -73,6 +73,8 @@ function [best_log] = run_attack(agroupname, I_name, wI_name)
     best_log = [];
   else
     imwrite(best_aI, aI_name);
+    %wI = imread(wI_name);
+    %best_WPSNR = WPSNR(best_aI, wI);
     attacks = sprintf('%s',cell2mat(best_log));
     fprintf('========\nRound %i was the best with WPSNR=%f: %s\n', best_round, best_WPSNR, attacks);
     fprintf('Attacked image: %s\n', best_image);
