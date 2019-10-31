@@ -3,6 +3,7 @@ attack_config = AttackConfig; %Create an instance
 attack_config.lazy = false; %If true then stop attacking a soon as a succesful attack is delivered
 attack_config.stubborn_until = 2; %Set an upper limit to the times a round can repeat itself
 attack_config.filters = [ %List of filters with params to be applied
+<<<<<<< Updated upstream
 %FilterConfiguration().setFilter(FilterEnum.AWGN).setNoisepower(.001).setSeed(100)
 FilterConfiguration().setFilter(FilterEnum.BLURRING).setNoisepower(0.7175)
 FilterConfiguration().setFilter(FilterEnum.JPEG).setQualityfactor(95)
@@ -11,6 +12,12 @@ FilterConfiguration().setFilter(FilterEnum.JPEG).setQualityfactor(95)
 %FilterConfiguration().setFilter(FilterEnum.EQUALIZATION).setNoisepower(10)
 %FilterConfiguration().setFilter(FilterEnum.RESIZING).setNoisepower(0.80)
 %FilterConfiguration().setFilter(FilterEnum.MEDIAN).setNa(20).setNb(40)
+=======
+FilterConfiguration().setFilter(FilterEnum.BLURRING).setNoisepower(.01)
+FilterConfiguration().setFilter(FilterEnum.JPEG).setQualityfactor(96)
+FilterConfiguration().setFilter(FilterEnum.SHARPENING).setNoisepower(1).setNradius(1)
+FilterConfiguration().setFilter(FilterEnum.AWGN).setNoisepower(.001).setSeed(100)
+>>>>>>> Stashed changes
 ];
 mappings = attack_config.mappings;
 %GENERAL SETTINGS

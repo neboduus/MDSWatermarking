@@ -2,9 +2,15 @@ close all; clearvars;
 
 addpath('detection');
 
+<<<<<<< HEAD
 img_name = 'woman_darkhair.bmp';
 originalFN = strcat('img/nowatermark/', img_name);
 watermarkedFN = strcat('img/groupB_', img_name);
+=======
+img_name = 'woman_darkhair';
+originalFN = strcat('img/nowatermark/', img_name, '.bmp');
+watermarkedFN = strcat('img/', img_name, '_unemployed', '.bmp');
+>>>>>>> 157653d5b15dc5032b67711e14820601f839b8de
 attackedFN = 'img/WI_A.bmp';
 
 fprintf('\n Embedding...\n');
@@ -74,7 +80,10 @@ fprintf('WPSNR(Original, Watermarked) = +%5.2f dB\n', WPSNR(uint8(HI), uint8(WI)
 
 fprintf('\n Detecting...\n');
 
-WI_A = WI;
+% WI = Watermarked Image
+WI_A = WI; 
+% WI_A = test_jpeg(uint8(WI_A), 95);
+% WI_A = test_blur(WI_A, 7.175000e-01);
 imwrite(uint8(WI_A), attackedFN);
 
 [detected, wpsnr_att] = detection_unemployed(originalFN, watermarkedFN, attackedFN);
