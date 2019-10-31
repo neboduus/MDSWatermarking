@@ -2,7 +2,7 @@ close all; clearvars;
 
 addpath('detection');
 
-img_name = 'baboon.bmp';
+img_name = 'woman_darkhair.bmp';
 originalFN = strcat('img/nowatermark/', img_name);
 watermarkedFN = strcat('img/unemployed_', img_name);
 attackedFN = 'img/WI_A.bmp';
