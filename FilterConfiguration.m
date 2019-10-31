@@ -54,7 +54,8 @@ function [aI_name, aI] = run_filter(obj, aI_name)
   switch uint32(obj.filter.id)
   case uint32(FilterEnum.AWGN.id)
     %noisepower = .000001; seed = 100;
-    rand('state',obj.seed);
+    %rand('state',obj.seed); OLD
+    rng(obj.seed, 'twister');
     aI = imnoise(I,'gaussian',0,obj.noisepower);
     imwrite(aI, aI_name);
   case uint32(FilterEnum.BLURRING.id)
