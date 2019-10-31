@@ -72,9 +72,6 @@ fprintf('WPSNR(Original, Watermarked) = +%5.2f dB\n', WPSNR(uint8(HI), uint8(WI)
 
 fprintf('\n Extracting...\n');
 
-WI_A = WI;
-imwrite(uint8(WI_A), attackedFN);
-
 [extractedW] = extract(originalFN, watermarkedFN);
 [Wx, Wy] = size(W);
 W = reshape(W, 1, Wx*Wy);
@@ -108,23 +105,19 @@ fprintf('T = +%5.2f\n', T);
 
 %fprintf('WPSNR(WI, WI_A) = +%5.2f dB\n', wpsnr_att);
  
-subplot(2,3,1)
+subplot(2,2,1)
 imagesc(HI)
 colormap gray
 title('HI')
-subplot(2,3,2)
+subplot(2,2,2)
 imagesc(WI)
 colormap gray
 title('WI')
-subplot(2,3,3)
-imagesc(double(WI_A));
-colormap gray
-title('WI_A')
-subplot(2,3,4)
+subplot(2,2,3)
 imagesc(W)
 colormap gray
 title('W')
-subplot(2,3,5)
+subplot(2,2,4)
 imagesc(extractedW)
 colormap gray
 title('extractedW')
