@@ -1,6 +1,6 @@
 close all; clearvars;
 
-img_name = 'lena.bmp';
+img_name = 'baboon.bmp';
 originalFN = strcat('img/nowatermark/', img_name);
 watermarkedFN = strcat('img/unemployed_', img_name);
 attackedFN = 'img/WI_A.bmp';
@@ -70,18 +70,17 @@ WI = IDWT;
 
 fprintf('WPSNR(Original, Watermarked) = +%5.2f dB\n', WPSNR(uint8(HI), uint8(WI)));
 
-fprintf('\n Extracting...\n');
+fprintf('\n Detecting...\n');
 
 WI_A = WI;
 imwrite(uint8(WI_A), attackedFN);
 
-[extractedW] = extract(originalFN, watermarkedFN);
-[Wx, Wy] = size(W);
+[detected, wpsnr_att] = detection_unemployed(originalFN, watermarkedFN, attackedFN);
+
 W = reshape(W, 1, Wx*Wy);
-extractedW = reshape(extractedW, 1, Wx*Wy);
-s = W * extractedW' / sqrt(extractedW * extractedW');
+
 SIMs = zeros(1,1000);
-SIMs(1) = s;
+SIMs[1] = 
 
 rand('state', 123);
 for i=1:999
@@ -95,16 +94,13 @@ SIMs = sort(SIMs, 'descend');
 t = SIMs(2);
 T = t + 0.1*t;
 
-W = reshape(W, Wx, Wy);
-extractedW = reshape(extractedW, Wx, Wy);
 
 %Decision
-if s >= T
+if detected == 1
     fprintf('Mark has been found. \n');
 else
     fprintf('Mark has been lost. \n');
 end
-fprintf('T = +%5.2f\n', T);
 
 %fprintf('WPSNR(WI, WI_A) = +%5.2f dB\n', wpsnr_att);
  
@@ -124,9 +120,5 @@ subplot(2,3,4)
 imagesc(W)
 colormap gray
 title('W')
-subplot(2,3,5)
-imagesc(extractedW)
-colormap gray
-title('extractedW')
 
 

@@ -2,7 +2,7 @@ function [detected, wpsnr] = detection_unemployed(originalI, watermarkedI, attac
 
     start_time = cputime;
     
-    T = 14.0979;
+    T = 14.25;
 
     HI = imread(originalI);
     WI = imread(watermarkedI);
