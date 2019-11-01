@@ -29,7 +29,7 @@ function [best_log] = run_attack(agroupname, I_name)
       %ATTACK CODE ENDS HERE
 
       %DETECTION CALL STARTS HERE
-      [d_outcome, d_WPSNR] = detection_unemployed(I_name, wI_name, aI_name);
+      [d_outcome, d_WPSNR] = detect(I_name, wI_name, aI_name);
       %The attack is succesful if d_outcome is 0 and d_WPSNR >= 35
       attack_outcome = d_outcome == 0 && d_WPSNR >= minWPSNR;
       attack_WPSNR = d_WPSNR;
