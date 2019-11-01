@@ -1,4 +1,4 @@
-function [best_log] = run_attack(agroupname, I_name, wI_name)
+function [best_log] = run_attack(agroupname, I_name)
   init_settings %load initial settings
   fprintf('>ATTACK image %s\n',I_name);
   I_name=strcat('img/nowatermark/',I_name); %Set image path
