@@ -1,8 +1,14 @@
 function [best_log] = run_attack(agroupname, I_name)
   init_settings %load initial settings
   fprintf('>ATTACK image %s\n',I_name);
-  I_name=strcat('img/nowatermark/',I_name); %Set image path
-  wI_name=strrep(I_name,'nowatermark/',strcat(agroupname,'_')); %Set image path
+  
+%   I_name=strcat('img/nowatermark/',I_name,'.bmp'); %Set image path
+%   wI_name=strrep(I_name,'nowatermark/',strcat(agroupname,'_')); %Set image 
+
+  Img_name=strcat('img/nowatermark/',I_name,'.bmp');
+  wI_name=strcat('img/',I_name,'_',agroupname,'.bmp');
+  I_name=Img_name;
+  
   minWPSNR = 35; %Minimum WPSNR accepted to break detection
   best_round = -1; %Holds the id of the best round (succesful attack with highest WPSNR)
   best_WPSNR = -1; %Holds the WPSNR of the best round
