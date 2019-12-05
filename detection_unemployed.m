@@ -1,4 +1,4 @@
-function [detected, wpsnr] = detection_unemployed_dev(originalI, watermarkedI, attackedI)
+function [detected, wpsnr] = detection_unemployed(originalI, watermarkedI, attackedI)
 
     start_time = cputime;
     
@@ -36,7 +36,7 @@ function [detected, wpsnr] = detection_unemployed_dev(originalI, watermarkedI, a
     M1 = ones(wholeBlockRows,wholeBlockCols);
     M2 = ones(wholeBlockRows,wholeBlockCols);
 
-    bits = [8 8];
+    bits = [6 6];
     for i=1:wholeBlockRows
         for j=1:wholeBlockCols
             WDCT = dct2(CWLL1{i,j});
@@ -57,28 +57,27 @@ function [detected, wpsnr] = detection_unemployed_dev(originalI, watermarkedI, a
     for i=1:wholeBlockRows
         for j=1:wholeBlockCols
             if (M3(i,j)>=0)
-                ExW(i,j) = 0;
-            else
-                ExW(i,j) = 1;
-            end
-            
-            if (M4(i,j)>=0)
                 W(i,j) = 0;
             else
                 W(i,j) = 1;
+            end
+            
+            if (M4(i,j)>=0)
+                ExW(i,j) = 0;
+            else
+                ExW(i,j) = 1;
             end
         end
     end
 
     ExW = double(ExW);
     W = double(W);
-    
     [Wx,Wy] = size(W);
     ExW = reshape(ExW, 1, Wx*Wy);
     W = reshape(W, 1, Wx*Wy);
 
     SIM = W * ExW' / sqrt(ExW * ExW');
-    
+
     %Decision
     if SIM > T
         detected = 1;
@@ -87,7 +86,7 @@ function [detected, wpsnr] = detection_unemployed_dev(originalI, watermarkedI, a
     end
 
     stop_time = cputime;
-    %fprintf('Detection Execution time = %0.5f sec\n',abs( start_time - stop_time));
+    % fprintf('Detection Execution time = %0.5f sec\n',abs( start_time - stop_time));
 
 
 

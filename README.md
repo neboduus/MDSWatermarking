@@ -1,5 +1,19 @@
+# Multimedia Data Security - Watermarking
+
+The following work contains an implementation of the technique published in following article: 
+>
+> -- <cite>Arya, Ranjan & Singh, Shalu & Saharan, Ravi. (2015). A Secure Non-blind Block Based Digital Image Watermarking Technique Using DWT and DCT. 10.1109/ICACCI.2015.7275917. </cite>
+
+## Requirements
+The code provided was developed and tested on Matlab R2019b.
 
 # Attack
+We also provide some functionalities to test this but also others watermarking techniques.
+
+We used this code to participate to a challange where teams had to embed a private watermark in some images. Then the other teams had to "attack" the images
+ in order to test how much the watermark was robust. The attack consists in jpeg compression, median filtering, etc. It was also required that after WPSNR(OriginalImg,WatermarkedImage)>60,
+which puts limits on attack brutality.
+
 ## Steps
 
 1. Put the original images provided during the competition inside *img/nowatermark*
