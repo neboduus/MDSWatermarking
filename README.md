@@ -1,8 +1,11 @@
 # Multimedia Data Security - Watermarking
 
+Watermarking is a technique which can be used to insert information into images in order to prevent for example illegal distribution of private images.
 The following work contains an implementation of the technique published in following article: 
 >
 > -- <cite>Arya, Ranjan & Singh, Shalu & Saharan, Ravi. (2015). A Secure Non-blind Block Based Digital Image Watermarking Technique Using DWT and DCT. 10.1109/ICACCI.2015.7275917. </cite>
+Basically we embed a 32x32 binary watermark into a 512x512 gereyscale image. For more details such as Threshold computation, please 
+refer to next chapter but also to the Rules.pdf file which contains the rules of the challage where this project was used to reach position 8/15.
 
 ## Requirements
 The code provided was developed and tested on Matlab R2019b.
@@ -11,7 +14,7 @@ The code provided was developed and tested on Matlab R2019b.
 We also provide some functionalities to test this but also others watermarking techniques.
 
 We used this code to participate to a challange where teams had to embed a private watermark in some images. Then the other teams had to "attack" the images
- in order to test how much the watermark was robust. The attack consists in jpeg compression, median filtering, etc. It was also required that after WPSNR(OriginalImg,WatermarkedImage)>60,
+ in order to test how much the watermark was robust. The attack consists in jpeg compression, median filtering, etc. It was also required that after WPSNR(OriginalImg,WatermarkedImage)>=35,
 which puts limits on attack brutality.
 
 ## Steps
