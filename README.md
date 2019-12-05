@@ -6,7 +6,7 @@ The following work contains an implementation of the technique published in foll
 > -- <cite>Arya, Ranjan & Singh, Shalu & Saharan, Ravi. (2015). A Secure Non-blind Block Based Digital Image Watermarking Technique Using DWT and DCT. 10.1109/ICACCI.2015.7275917. </cite>
 
 Basically we embed a 32x32 binary watermark into a 512x512 gereyscale image. For more details such as Threshold computation, please 
-refer to next chapter but also to the Rules.pdf file which contains the rules of the challage where this project was used to reach position 8/15.
+refer to the Rules.pdf file which contains the rules of the challage where this project was used to reach position 8/15.
 
 ## Requirements
 The code provided was developed and tested on Matlab R2019b.
